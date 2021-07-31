@@ -1,0 +1,29 @@
+.button-up {
+  display: none;
+  position: fixed;
+  bottom: 50px;
+  right: 20px;
+
+  width: 40px;
+  height: 40px;
+
+  background-color: #95D0A1;
+  background-image: url("../img/elements/arrow-top.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 50%;
+
+  transition: box-shadow .4s ease, opacity .4s ease;
+
+  @include medium {
+    right: 50px;
+    cursor: pointer;
+
+    &:hover {
+      box-shadow: 0 6px 20px #b8d5bc;
+    }
+  }
+  &.show {
+    display: block;
+  }
+}

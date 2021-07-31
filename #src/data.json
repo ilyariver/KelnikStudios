@@ -1,0 +1,302 @@
+[
+  {
+    "id": 1,
+    "image": "/img/elements/flat.svg",
+    "name": "3-комнатная №104",
+    "options": {
+      "area": "63,1",
+      "stage": 12,
+      "cost": 6630500
+    }
+  },
+  {
+    "id": 2,
+    "image": "/img/elements/flat.svg",
+    "name": "3-комнатная №105",
+    "options": {
+      "area": "63,1",
+      "stage": 2,
+      "cost": 6630500
+    }
+  },
+  {
+    "id": 3,
+    "image": "/img/elements/flat.svg",
+    "name": "3-комнатная №106",
+    "options": {
+      "area": "63,1",
+      "stage": 3,
+      "cost": 6630500
+    }
+  },
+  {
+    "id": 4,
+    "image": "/img/elements/flat.svg",
+    "name": "3-комнатная №107",
+    "options": {
+      "area": "63,1",
+      "stage": 5,
+      "cost": 6650759
+    }
+  },
+  {
+    "id": 5,
+    "image": "/img/elements/flat.svg",
+    "name": "3-комнатная №108",
+    "options": {
+      "area": "63,1",
+      "stage": 7,
+      "cost": 6630500
+    }
+  },
+  {
+    "id": 6,
+    "image": "/img/elements/flat.svg",
+    "name": "3-комнатная №109",
+    "options": {
+      "area": "63,1",
+      "stage": 6,
+      "cost": 6671314
+    }
+  },
+  {
+    "id": 7,
+    "image": "/img/elements/flat.svg",
+    "name": "3-комнатная №110",
+    "options": {
+      "area": "63,1",
+      "stage": 6,
+      "cost": 6630500
+    }
+  },
+  {
+    "id": 8,
+    "image": "/img/elements/flat.svg",
+    "name": "3-комнатная №111",
+    "options": {
+      "area": "63,1",
+      "stage": 8,
+      "cost": 6630500
+    }
+  },
+  {
+    "id": 9,
+    "image": "/img/elements/flat.svg",
+    "name": "3-комнатная №112",
+    "options": {
+      "area": "63,1",
+      "stage": 14,
+      "cost": 6679554
+    }
+  },
+  {
+    "id": 10,
+    "image": "/img/elements/flat.svg",
+    "name": "3-комнатная №113",
+    "options": {
+      "area": "63,1",
+      "stage": 15,
+      "cost": 6654665
+    }
+  },
+  {
+    "id": 11,
+    "image": "/img/elements/flat.svg",
+    "name": "3-комнатная №114",
+    "options": {
+      "area": "63,1",
+      "stage": 16,
+      "cost": 6780000
+    }
+  },
+  {
+    "id": 12,
+    "image": "/img/elements/flat.svg",
+    "name": "3-комнатная №115",
+    "options": {
+      "area": "63,1",
+      "stage": 12,
+      "cost": 6800565
+    }
+  },
+  {
+    "id": 13,
+    "image": "/img/elements/flat.svg",
+    "name": "3-комнатная №116",
+    "options": {
+      "area": "63,1",
+      "stage": 12,
+      "cost": 6810565
+    }
+  },
+  {
+    "id": 14,
+    "image": "/img/elements/flat.svg",
+    "name": "3-комнатная №117",
+    "options": {
+      "area": "63,1",
+      "stage": 15,
+      "cost": 6820565
+    }
+  },
+  {
+    "id": 15,
+    "image": "/img/elements/flat.svg",
+    "name": "3-комнатная №118",
+    "options": {
+      "area": "63,1",
+      "stage": 1,
+      "cost": 6850500
+    }
+  },
+  {
+    "id": 16,
+    "image": "/img/elements/flat.svg",
+    "name": "3-комнатная №119",
+    "options": {
+      "area": "63,1",
+      "stage": 1,
+      "cost": 6860600
+    }
+  },
+  {
+    "id": 17,
+    "image": "/img/elements/flat.svg",
+    "name": "3-комнатная №120",
+    "options": {
+      "area": "63,1",
+      "stage": 3,
+      "cost": 6880000
+    }
+  },
+  {
+    "id": 18,
+    "image": "/img/elements/flat.svg",
+    "name": "3-комнатная №121",
+    "options": {
+      "area": "63,1",
+      "stage": 4,
+      "cost": 6890000
+    }
+  },
+  {
+    "id": 19,
+    "image": "/img/elements/flat.svg",
+    "name": "3-комнатная №122",
+    "options": {
+      "area": "63,1",
+      "stage": 5,
+      "cost": 6950000
+    }
+  },
+  {
+    "id": 20,
+    "image": "/img/elements/flat.svg",
+    "name": "3-комнатная №123",
+    "options": {
+      "area": "63,1",
+      "stage": 10,
+      "cost": 6960000
+    }
+  },
+  {
+    "id": 21,
+    "image": "/img/elements/flat.svg",
+    "name": "3-комнатная №124",
+    "options": {
+      "area": "63,1",
+      "stage": 8,
+      "cost": 6970000
+    }
+  },
+  {
+    "id": 22,
+    "image": "/img/elements/flat.svg",
+    "name": "3-комнатная №125",
+    "options": {
+      "area": "63,1",
+      "stage": 8,
+      "cost": 6980000
+    }
+  },
+  {
+    "id": 23,
+    "image": "/img/elements/flat.svg",
+    "name": "3-комнатная №126",
+    "options": {
+      "area": "63,1",
+      "stage": 9,
+      "cost": 7150000
+    }
+  },
+  {
+    "id": 24,
+    "image": "/img/elements/flat.svg",
+    "name": "3-комнатная №127",
+    "options": {
+      "area": "63,1",
+      "stage": 10,
+      "cost": 7200000
+    }
+  },
+  {
+    "id": 25,
+    "image": "/img/elements/flat.svg",
+    "name": "3-комнатная №128",
+    "options": {
+      "area": "63,1",
+      "stage": 15,
+      "cost": 7250000
+    }
+  },
+  {
+    "id": 26,
+    "image": "/img/elements/flat.svg",
+    "name": "3-комнатная №129",
+    "options": {
+      "area": "63,1",
+      "stage": 11,
+      "cost": 7305000
+    }
+  },
+  {
+    "id": 27,
+    "image": "/img/elements/flat.svg",
+    "name": "3-комнатная №130",
+    "options": {
+      "area": "63,1",
+      "stage": 15,
+      "cost": 7455000
+    }
+  },
+  {
+    "id": 28,
+    "image": "/img/elements/flat.svg",
+    "name": "3-комнатная №131",
+    "options": {
+      "area": "63,1",
+      "stage": 18,
+      "cost": 7505000
+    }
+  },
+  {
+    "id": 29,
+    "image": "/img/elements/flat.svg",
+    "name": "3-комнатная №132",
+    "options": {
+      "area": "63,1",
+      "stage": 17,
+      "cost": 7605000
+    }
+  },
+  {
+    "id": 30,
+    "image": "/img/elements/flat.svg",
+    "name": "3-комнатная №133",
+    "options": {
+      "area": "63,1",
+      "stage": 17,
+      "cost": 7705000
+    }
+  }
+]

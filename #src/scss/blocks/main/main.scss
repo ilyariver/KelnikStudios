@@ -1,0 +1,11 @@
+.main {
+  padding: 20px 0 40px;
+
+  @include medium {
+    padding: 40px 0 50px;
+  }
+
+  @include x-large {
+    padding: 95px 0 50px;
+  }
+}

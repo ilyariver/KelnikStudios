@@ -1,0 +1,37 @@
+.container {
+  //max-width: 1440px;
+  padding: 0 20px;
+  margin: 0 auto;
+
+  @include x-small {
+    width: 460px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  @include small {
+    min-width: 540px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  @include medium {
+    min-width: 720px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  @include large {
+    min-width: 960px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  @include x-large {
+    width: 1440px;
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+}
+
+

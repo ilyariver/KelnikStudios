@@ -1,0 +1,30 @@
+.section-flats {
+
+  &__title {
+    margin-top: 0;
+    margin-bottom: 40px;
+
+    font-weight: 700;
+    font-size: 54px;
+  }
+
+  &__items {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    margin-bottom: 25px;
+  }
+
+  @include medium {
+    &__items {
+      flex-wrap: nowrap;
+    }
+  }
+
+  @include x-large {
+    &__items {
+      margin-bottom: 50px;
+    }
+  }
+}

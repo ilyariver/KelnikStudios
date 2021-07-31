@@ -1,0 +1,28 @@
+.flats-block {
+  width: 100%;
+  order: 1;
+
+  @include medium {
+    margin-right: 30px;
+    order: 0;
+  }
+
+  @include x-large {
+    margin-right: 80px;
+
+    &__plan {
+      width: 100px;
+    }
+    picture {
+      width: 110px;
+    }
+
+    &__width {
+      width: 110px;
+    }
+
+    &__width:nth-child(1) {
+      //width: 100px;
+    }
+  }
+}

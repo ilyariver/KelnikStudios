@@ -1,0 +1,49 @@
+//GLOBAL
+
+@import "variables";
+@import "normalize";
+@import "global";
+@import "mixins";
+@import "fonts";
+@import "visually-hidden";
+@import "container";
+
+//HEADER
+
+@import "blocks/header/header";
+
+//MAIN
+
+@import "blocks/main/main";
+@import "blocks/main/section-flats";
+@import "blocks/main/flats-block";
+@import "blocks/main/filters-list";
+@import "blocks/main/filter-block";
+@import "blocks/main/range-slider";
+@import "blocks/main/flats-list";
+@import "blocks/main/rooms-filter";
+@import "blocks/main/reset-filter";
+@import "blocks/main/button-up";
+@import "blocks/main/watch-more-btn";
+@import "blocks/main/notice-of-empty";
+@import "blocks/main/skeletons";
+
+//FOOTER
+
+@import "blocks/footer/footer";
+
+//MODAL
+
+//@import "modal/modal";
+
+
+//SLIDER
+
+//@import "blocks/slider";
+
+
+
+
+
+
+

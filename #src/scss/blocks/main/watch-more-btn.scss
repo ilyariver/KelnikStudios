@@ -1,0 +1,23 @@
+.watch-more-btn {
+  width: 150px;
+  height: 40px;
+
+  background-color: transparent;
+
+  border: 1px solid #0b173933;
+  border-radius: 25px;
+
+  font-size: 15px;
+  font-weight: 700;
+
+
+
+  @include medium {
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #95d0a1;
+    }
+  }
+}

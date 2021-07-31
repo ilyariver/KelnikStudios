@@ -1,0 +1,41 @@
+.rooms-filter {
+  display: flex;
+
+  margin-bottom: 20px;
+
+  &__btn {
+    width: 45px;
+    height: 45px;
+
+    padding: 0;
+
+    background-color: white;
+
+    border-radius: 50%;
+    border: none;
+
+    &.active {
+      background-color: #3EB57C;
+      color: white;
+    }
+  }
+
+  &__item {
+    &:not(:last-child) {
+      margin-right: 16px;
+    }
+  }
+
+  @include medium {
+    &__btn {
+      transition: background-color 0.4s ease, color 0.4s ease, box-shadow 0.4s ease;
+      cursor: pointer;
+
+      &.hovered:hover {
+        background-color: #3EB57C;
+        box-shadow: 0 6px 20px #95D0A1;
+        color: white;
+      }
+    }
+  }
+}

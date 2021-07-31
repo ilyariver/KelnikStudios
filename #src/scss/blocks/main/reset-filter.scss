@@ -1,0 +1,32 @@
+.reset-filter {
+  font-size: 13px;
+
+  &__text {
+    margin-left: 20px;
+    margin-right: 8px;
+  }
+
+  &__button {
+    width: 13px;
+    height: 13px;
+
+    padding: 0;
+
+    background-image: url("../img/elements/reset-icon.svg");
+    background-color: transparent;
+    background-position: center;
+    background-size: 9px;
+    background-repeat: no-repeat;
+
+    border: none;
+  }
+
+  @include x-large {
+    font-size: 14px;
+
+    &__text {
+      margin-left: 25px;
+      font-size: 14px;
+    }
+  }
+}
