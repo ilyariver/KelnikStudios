@@ -71,14 +71,10 @@ function updateInputs(data) {
 	inputTo.innerHTML = to.toLocaleString('ru-RU')
 
 	if (numberRepeat === 1) {
-		console.log('sdf')
-		App.f()
+		App.createSkeletons()
 		numberRepeat++
 	}
-
 }
-
-
 
 function finishInputs(data) {
 	let filtered = ''
@@ -90,6 +86,7 @@ function finishInputs(data) {
 		}
 		flatsFilter.rangeArea ? flatsFilter.rangeArea['active'] = false : false
 		filtered = App.filterRender('rangeCost', 'cost')
+		App.workFilter = true
 	}
 	if (data.slider[0].classList.contains('js-irs-1')) {
 		flatsFilter.rangeArea = {
@@ -103,4 +100,5 @@ function finishInputs(data) {
 
 	numberRepeat = 1
 	getResponse(App.stateView, false, 'slide', filtered)
+	App.workFilter = true
 }

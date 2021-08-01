@@ -45,13 +45,22 @@
   }
   /*зеленые круги*/
   .irs--round .irs-handle {
-    top: 9px;
+    top: 6px;
 
-    width: 14px;
-    height: 14px;
+    width: 21px;
+    height: 21px;
 
     border: 4px solid #3EB57C;
     background-color: #3EB57C;
+  }
+
+  @include medium {
+    .irs--round .irs-handle {
+      top: 9px;
+
+      width: 14px;
+      height: 14px;
+    }
   }
 
   @include x-large {

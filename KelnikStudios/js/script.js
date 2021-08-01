@@ -36,7 +36,7 @@ window.addEventListener('resize', function() {
 	renderCreateTitle()
 })
 
-// кнопки выбора квартир
+// кнопки выбора количества комнат
 roomsFilterButtons.addEventListener('click', function(e) {
 	flatsFilter.rooms = []
 	const target = e.target
@@ -51,7 +51,8 @@ roomsFilterButtons.addEventListener('click', function(e) {
 			flatsFilter.rooms.push(+item.getAttribute('id'))
 		}
 	})
-	getResponse(App.stateView, false, 'roomsHandler', App.filterRender())
+	App.hasArguments = flatsFilter.rangeArea ? ['rangeArea', 'area'] : ['rangeCost','cost']
+	getResponse(App.stateView, false, 'roomsHandler', App.filterRender(...App.hasArguments))
 })
 
 // сбросить фильтр
@@ -65,6 +66,8 @@ resetButton.addEventListener('click', function() {
 	firstRangeSlider.reset()
 	getResponse(startState, true, 'reset')
 	count = 0
+	flatsFilter = {}
+	App.stateView = 4
 	App.rangeCost = {}
 	App.rangeArea = {}
 	App.rooms = []
@@ -87,13 +90,14 @@ window.addEventListener('scroll', function(e) {
 buttonUp.addEventListener('click', function() {
 	pageMainContent.scrollIntoView({behavior: 'smooth'})
 })
+App.ascending = true
+document.querySelector('.js-top-filter-block').addEventListener('click', filteredOfOptions)
 
 // fetch
 const flatHtmlTemplate = data =>
 	`<li class="flats-list__item js-flat">
 		<div class="flats-list__info">
 			<h2 class="flats-list__title">${data.rooms}-комнатная № ${data.apartment}</h2>
-			<h2 class="flats-list__title">${data.id}</h2>
 			<div class="flats-list__options">
 				<div class="flats-list__option flats-block__width">${data.options.area} <span>м<sup>2</sup></span></div>
 				<div class="flats-list__option flats-block__width">${data.options.stage} <span>из 17 <span>этаж</span></span></div>
@@ -107,7 +111,7 @@ const flatHtmlTemplate = data =>
 </li>
 `
 
-// формат крупных цифр, с пробелами
+// формат больших чисел с пробелами
 function reformatNumbers(num) {
 	return num.toLocaleString('ru-RU')
 }
@@ -121,9 +125,7 @@ async function getResponse(num = 4, isFirstLoad = false, state = null, filtered 
 	const url = '/data.json'
 	const response = await fetch(url)
 
-	if (state !== 'slide') App.f()
-
-
+	if (state !== 'slide' && state !== 'clickFilter') App.createSkeletons()
 
 	if (response.ok) {
 		const content = await response.json()
@@ -195,40 +197,44 @@ async function getResponse(num = 4, isFirstLoad = false, state = null, filtered 
 		numberOfContentItems = content.length
 		if (state !== 'clickFilter') App.contentSplice = content.splice(0, num)
 
-		document.querySelector('.js-top-filter-block').addEventListener('click', function(e) {
-			const target = e.target
+		if ((filtered && state === 'handler') || (filtered && state === 'clickFilter')) {
+			filtered = App.filterRender(...App.hasArguments)
+		}
 
+		// выводим карточки квартир
+		const filteredOrDefault = filtered ? filtered : App.contentSplice
+		let listToHtml = filteredOrDefault.map(item => flatHtmlTemplate(item))
 
-			if (!target.closest('.js-top-filter-block')) { return }
-			document.querySelectorAll('.filters-list__arrow-btn').forEach(item => item.style.color = '#0b1739')
-			target.closest('.filters-list__arrow-btn').style.color = '#3EB57C'
+		setTimeout(() => {
+			wrapListFlats.innerHTML = listToHtml.join('')
+			const flatsItemsOfDOM = document.querySelectorAll('.js-flat')
 
-			if (target.closest('.js-btn-top-cost')) {
-				function byField(field) {
-					return (a, b) => a[field].cost > b[field].cost ? 1 : -1;
-				}
-				App.contentSplice.sort(byField('options'))
-				App.contentSplice = App.contentSplice.filter(item => App.contentSplice.map(user => user.options.cost).includes(item.options.cost))
-				getResponse(App.stateView, false, 'clickFilter')
-			}
-		})
+			flatsItemsOfDOM.forEach(item => item.style.opacity = '0')
 
+			document.querySelectorAll('.js-skeletons').forEach(item => item.remove())
 
+			setTimeout(() => {
+				flatsItemsOfDOM.forEach(item => item.style.cssText = `
+					opacity: '1';
+					transition: opacity 0.2s ease;
+				`)
+			},100)
 
-
-
+			showNoticeMessage()
+			removeWatchMoreButton()
+		},500)
 
 		App.filterRender = (type = 'rangeCost', meth = 'cost') => {
 			let filterValue = ''
-			let flatRoomsChecked = flatsFilter.rooms && flatsFilter.rooms.length
+			let flatRoomsChecked = flatsFilter.rooms ? flatsFilter.rooms.length : false
 
 			if (flatRoomsChecked) {
 				filterValue = App.contentSplice.filter(item => flatsFilter.rooms.includes(item.rooms))
 			}
 
 			if (flatsFilter[type]) {
-				const test = flatRoomsChecked ? filterValue : App.contentSplice
-				filterValue = test.filter(item =>
+				const roomsOrDefault = flatRoomsChecked ? filterValue : App.contentSplice
+				filterValue = roomsOrDefault.filter(item =>
 					flatsFilter[type] && Number.parseInt(item.options[meth]) >=
 					flatsFilter[type].from && Number.parseInt(item.options[meth]) <=
 					flatsFilter[type].to)
@@ -243,125 +249,16 @@ async function getResponse(num = 4, isFirstLoad = false, state = null, filtered 
 				revert && Number.parseInt(item.options[method]) >=
 				revert.from && Number.parseInt(item.options[method]) <=
 				revert.to)
-
-
-			// console.log('all',all = cost)
-
-			// const isRange = flatsFilter[rangeType]
-			// const isRangeActive = isRange ? isRange.active : false
-			// const isRangeFrom = isRange ? isRange.from : false
-			// const isRangeTo = isRange ? isRange.to : false
-			//
-			// if (!Object.keys(flatsFilter).length) { return }
-			//
-			// if (!filteredAll.length) {
-			// 	contentSplice.forEach(item => {
-			// 		const dataFilter = Number.parseInt(item.options[type])
-			//
-			// 		if (isRangeActive && isRangeFrom <= dataFilter && isRangeTo >= dataFilter) {
-			// 			filteredAll.push(item)
-			// 		}
-			// 	})
-			// }
-			// console.log('one===',filteredAll)
-			// if (!r) { return }
-			//
-			// filteredAll.filter(item => {
-			// 	const dataFilter = Number.parseInt(item.options[type])
-			//
-			// 	console.log(r)
-			// 	if (isRangeActive && isRangeFrom <= dataFilter && isRangeTo >= dataFilter) {
-			//
-			// 		endchka.push(item)
-			// 	}
-			// 	filteredAll = endchka
-			// })
-			//
-			// console.log('two===',filteredAll)
 		}
-
-		console.log(filtered)
-
-		/*	if () {
-				filteredAll.push(item)
-			}
-			if (flatsFilter.rangeArea && flatsFilter.rangeArea.from <= Number.parseInt(item.options.area) && flatsFilter.rangeArea.to >= Number.parseInt(item.options.area )) {
-				filteredAll.push(item)
-			}*/
-
-
-		// console.log(contentSplice)
-		// console.log(App)
-		// console.log('==flatsFilter=',flatsFilter)
-		// console.log('===',filteredAll)
-
-
-		const cardsFlatOfDOM = document.querySelector('.js-flat')
-
-		// выводим карточки квартир
-		const ok = filtered ? filtered : App.contentSplice
-		// let defaultListToHtml = contentSplice.map(item => flatHtmlTemplate(item))
-		let listToHtml = ok.map(item => flatHtmlTemplate(item))
-
-		console.log(listToHtml)
-		setTimeout(() => {
-
-			document.querySelectorAll('.js-skeletons').forEach(item => item.remove())
-			wrapListFlats.innerHTML = listToHtml.join('')
-
-			showNoticeMessage()
-			removeWatchMoreButton()
-		},500)
-
-
-
-		setTimeout(() => {
-
-		}, 500)
-
-
-
-		/*if ( state === 'slide' || filteredListToHtml.length || Object.keys(App).length) {
-			wrapListFlats.innerHTML = filteredListToHtml.join('')
-			showNoticeMessage()
-			removeWatchMoreButton()
-			return
-		}
-		if (!filteredListToHtml.length && state !== 'slide' && !Object.keys(App).length) {
-			wrapListFlats.innerHTML = defaultListToHtml.join('')
-			showNoticeMessage()
-			removeWatchMoreButton()
-			return
-		}
-		if (state === 'handler'&& !Object.keys(App).length) {
-			wrapListFlats.innerHTML = defaultListToHtml.join('')
-			showNoticeMessage()
-			removeWatchMoreButton()
-			return
-		}
-		if (state === 'handler') {
-			wrapListFlats.innerHTML = defaultListToHtml.join('')
-			showNoticeMessage()
-			removeWatchMoreButton()
-			return
-		}
-		if (state === 'reset') {
-			wrapListFlats.innerHTML = defaultListToHtml.join('')
-			showNoticeMessage()
-			removeWatchMoreButton()
-		}*/
-
-
 
 		function showNoticeMessage() {
 			const cardsFlatOfDOM = document.querySelectorAll('.js-flat')
 			const noticeOfEmpty = document.querySelector('.js-notice-of-empty')
 
-
 			if (!cardsFlatOfDOM.length && !noticeOfEmpty) {
 				$('<p/>', {
 					'class': 'notice-of-empty js-notice-of-empty',
-					'text': 'Ой, таких квартир пока нет...'
+					'text': 'Квартиры по заданному фильтру отсутствуют...'
 				}).appendTo('.js-flats-block')
 
 				countElse = 1
@@ -390,7 +287,7 @@ async function getResponse(num = 4, isFirstLoad = false, state = null, filtered 
 	}
 }
 
-App.f = function () {
+App.createSkeletons = function () {
 	const emptyNotice = document.querySelector('.js-notice-of-empty')
 	if (emptyNotice) {
 		emptyNotice.remove()
@@ -399,39 +296,71 @@ App.f = function () {
 	wrapListFlats.innerHTML = ''
 	wrapListFlats.insertAdjacentHTML('beforeend', `
 		<li class="flats-list__skeletons skeletons js-skeletons">
-							<div class="skeletons__body">
-									<span class="skeletons__text"></span>
-									<span class="skeletons__text"></span>
-									<span class="skeletons__text"></span>
-							</div>
-							<div class="skeletons__img"></div>
-					</li>
+			<div class="skeletons__body">
+				<span class="skeletons__text"></span>
+				<span class="skeletons__text"></span>
+				<span class="skeletons__text"></span>
+			</div>
+			<div class="skeletons__img"></div>
+		</li>
 		<li class="flats-list__skeletons skeletons js-skeletons">
-							<div class="skeletons__body">
-									<span class="skeletons__text"></span>
-									<span class="skeletons__text"></span>
-									<span class="skeletons__text"></span>
-							</div>
-							<div class="skeletons__img"></div>
-					</li>
+			<div class="skeletons__body">
+				<span class="skeletons__text"></span>
+				<span class="skeletons__text"></span>
+				<span class="skeletons__text"></span>
+			</div>
+			<div class="skeletons__img"></div>
+		</li>
 		<li class="flats-list__skeletons skeletons js-skeletons">
-							<div class="skeletons__body">
-									<span class="skeletons__text"></span>
-									<span class="skeletons__text"></span>
-									<span class="skeletons__text"></span>
-							</div>
-							<div class="skeletons__img"></div>
-					</li>
+			<div class="skeletons__body">
+				<span class="skeletons__text"></span>
+				<span class="skeletons__text"></span>
+				<span class="skeletons__text"></span>
+			</div>
+			<div class="skeletons__img"></div>
+		</li>
 		<li class="flats-list__skeletons skeletons js-skeletons">
-							<div class="skeletons__body">
-									<span class="skeletons__text"></span>
-									<span class="skeletons__text"></span>
-									<span class="skeletons__text"></span>
-							</div>
-							<div class="skeletons__img"></div>
-					</li>`)
+			<div class="skeletons__body">
+				<span class="skeletons__text"></span>
+				<span class="skeletons__text"></span>
+				<span class="skeletons__text"></span>
+			</div>
+			<div class="skeletons__img"></div>
+		</li>`)
 }
 
+function filteredOfOptions(e) {
+	const target = e.target
+	const targetPushed = target.closest('.filters-list__arrow-btn')
+
+	if (!targetPushed) { return }
+
+	const typeFilter = targetPushed.dataset.option
+
+	document.querySelectorAll('.filters-list__arrow-btn').forEach(item => item.style.color = '#0b1739')
+	target.closest('.filters-list__arrow-btn').style.color = '#3EB57C'
+
+	renderFilterOfType(typeFilter)
+
+}
+
+function renderFilterOfType(typeFilter) {
+	App.contentSplice.sort(byField('options', typeFilter))
+	App.contentSplice = App.contentSplice.filter(item => App.contentSplice.map(user => user.options[typeFilter]).includes(item.options[typeFilter]))
+	App.hasArguments = flatsFilter.rangeArea ? ['rangeArea', 'area'] : ['rangeCost','cost']
+
+	const filtered = flatsFilter ? App.filterRender(...App.hasArguments) : false
+	getResponse(App.stateView, false, 'clickFilter', filtered)
+}
+
+function byField(field, typeFilter) {
+	if (App.ascending) {
+		App.ascending = false
+		return (a, b) => Number.parseInt(a[field][typeFilter]) > Number.parseInt(b[field][typeFilter]) ? 1 : -1;
+	}
+	App.ascending = true
+	return (a, b) => Number.parseInt(a[field][typeFilter]) < Number.parseInt(b[field][typeFilter]) ? 1 : -1;
+}
 // проверка наличия скролла
 function getScroll(a) {
 	const d = document,
@@ -441,7 +370,6 @@ function getScroll(a) {
 	a = "scroll" + a;
 	return /CSS/.test(d.compatMode)? (e[c]< e[a]) : (b[c]< b[a])
 }
-
 // функция создания конпки "заргузить еще"
 function createButtonWatchMore(num) {
 	$('<button/>', {
@@ -450,18 +378,18 @@ function createButtonWatchMore(num) {
 		'text': 'Загрузить еще'
 	}).appendTo('.js-section-flats-container')
 
-	// загрузить еще 20 карточек
+	// загрузить 20 карточек
 	document.querySelector('.js-watch-more-btn').addEventListener('click', function() {
+		App.hasArguments = flatsFilter.rangeArea ? ['rangeArea', 'area'] : ['rangeCost','cost']
+		App.stateView = numberOfCards + num
 
+		const filtered = flatsFilter ? App.filterRender(...App.hasArguments) : false
 		count += numberOfCards + num
-		App.stateView = count
-		getResponse(count,false, 'handler', App.filterRender())
+		getResponse(count, false, 'handler', filtered)
 
 		num = 0
 	})
 }
-
-
 
 function renderCreateTitle() {
 	if (window.innerWidth >= breakPointMediumSize) {
